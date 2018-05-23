@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ViewController setupUI]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.frame.size.width/LINE_MAXNUM*(i%LINE_MAXNUM+1)-(buttonSize.width/2)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
