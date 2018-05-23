@@ -86,20 +86,25 @@
 
 #pragma mark action
 - (void)didClickButton:(UIButton *)sender {
+    NSInteger nowStation = [self.stationButtons indexOfObject:sender];
     //设置起始站和终点站
-    if (self.startStation <=0) {
-        self.startStation = [self.stationButtons indexOfObject:sender];
+    if (self.startStation <0) {
+        //无起点站
+        self.startStation = nowStation;
     }else if (self.startStation>=0 && self.endStation == -1){
+        //有起点站无终点站
         
     }
     
     //修改界面
-    for (NSInteger i = 0; i<self.endStation; i++) {
+    for (NSInteger i = 0; i<self.stations.count; i++) {
         UIButton *tempBtn = self.stationButtons[i];
         if (i < self.startStation) {
             [tempBtn setBackgroundColor:[UIColor darkGrayColor]];
+        }else if ((i>= self.startStation && i<= self.endStation) || i == self.startStation){
+            [tempBtn setBackgroundColor:[UIColor blueColor]];
         }else {
-            [tempBtn setBackgroundColor:[UIColor redColor]];
+            [tempBtn setBackgroundColor:[UIColor blueColor]];
         }
     }
 }
@@ -107,7 +112,7 @@
 #pragma mark lazy
 - (NSArray *)stations {
     if (!_stations) {
-        _stations = @[@"武夷山", @"武夷山东", @"建瓯", @"南平", @"古田", @"福州", @"泉州"];
+        _stations = @[@"武夷山", @"武夷山东", @"建瓯", @"南平", @"古田", @"福州", @"莆田", @"泉州", @"晋江", @"厦门北", @"漳州"];
         return _stations;
     }
     return _stations;
