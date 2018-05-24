@@ -8,14 +8,16 @@
 
 #import "ViewController.h"
 #import "UIButton+EXFont.h"
-#import <SDAutoLayout.h>
+#import "CustomView.h"
 
 //一行显示最多站点
 #define LINE_MAXNUM 3
 
 #define TOP_MARGIN 60
 
-@interface ViewController ()
+#define buttonSizeHeight 40
+
+@interface ViewController () <CALayerDelegate>
 
 @property(nonatomic, strong)NSArray *stations;
 
@@ -34,48 +36,52 @@
     
     self.startStation = -1;
     self.endStation = -1;
-    
     [self setupUI];
 
 }
-
 
 /**
  界面元素
  */
 - (void)setupUI {
     
+    CustomView *cv = [[CustomView alloc] initWithFrame:CGRectMake(20, 150, self.view.frame.size.width-40, (self.stations.count/LINE_MAXNUM+1)*buttonSizeHeight+(self.stations.count/3)*TOP_MARGIN)];
+    cv.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:cv];
+    
+    UIFont *font = [UIFont systemFontOfSize:24];
+    CGSize size = CGSizeMake(MAXFLOAT, 30.0f);
     NSMutableArray *mutable = [NSMutableArray arrayWithCapacity:self.stations.count];
     for (int i = 0; i<self.stations.count; i++) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectZero];
         [button setTitle:self.stations[i] forState:UIControlStateNormal];
         [button setBackgroundColor:[UIColor blueColor]];
-        UIFont *font = [UIFont systemFontOfSize:24];
+        
         [button addTarget:self action:@selector(didClickButton:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:button];
+        [cv addSubview:button];
         NSString *content = self.stations[i];
-        CGSize size = CGSizeMake(MAXFLOAT, 30.0f);
         CGSize buttonSize = [content boundingRectWithSize:size
                                                   options:NSStringDrawingTruncatesLastVisibleLine  | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                attributes:@{ NSFontAttributeName:font}
                                                   context:nil].size;
         
         if (i%LINE_MAXNUM == i%(LINE_MAXNUM*2)) {
-            button.frame = CGRectMake(self.view.frame.size.width/(LINE_MAXNUM+1)*(i%LINE_MAXNUM+1)-(buttonSize.width/2),
-                                      150+TOP_MARGIN*(i/3)+buttonSize.height*(i/3),
+            button.frame = CGRectMake(cv.frame.size.width/(LINE_MAXNUM+1)*(i%LINE_MAXNUM+1)-(buttonSize.width/2),
+                                      TOP_MARGIN*(i/3)+buttonSizeHeight*(i/3),
                                       buttonSize.width,
-                                      buttonSize.height);
+                                      buttonSizeHeight);
         }else {
-            button.frame = CGRectMake(self.view.frame.size.width/(LINE_MAXNUM+1)*(LINE_MAXNUM - i%LINE_MAXNUM)-(buttonSize.width/2),
-                                      150+TOP_MARGIN*(i/3)+buttonSize.height*(i/3),
+            button.frame = CGRectMake(cv.frame.size.width/(LINE_MAXNUM+1)*(LINE_MAXNUM - i%LINE_MAXNUM)-(buttonSize.width/2),
+                                      TOP_MARGIN*(i/3)+buttonSizeHeight*(i/3),
                                       buttonSize.width,
-                                      buttonSize.height);
+                                      buttonSizeHeight);
         }
         
         [mutable addObject:button];
     }
-    
     self.stationButtons = [NSArray arrayWithArray:mutable];
+  
+    
 }
 
 
@@ -84,6 +90,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark delegate
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx {
+    
+}
+
+
 #pragma mark action
 - (void)didClickButton:(UIButton *)sender {
     NSInteger nowStation = [self.stationButtons indexOfObject:sender];
@@ -91,20 +103,25 @@
     if (self.startStation <0) {
         //无起点站
         self.startStation = nowStation;
-    }else if (self.startStation>=0 && self.endStation == -1){
-        //有起点站无终点站
-        
+        sender.backgroundColor = [UIColor redColor];
+        return;
+    }else if (self.startStation>=0 && nowStation==self.startStation){
+        self.endStation = -1;
+        self.startStation = -1;
+    }else if (self.startStation>=0 && nowStation > self.startStation){
+        //有起点站
+        self.endStation = nowStation;
+    }else if (self.startStation>=0 && nowStation<self.startStation){
+        self.endStation = self.startStation;
+        self.startStation = nowStation;
     }
-    
     //修改界面
-    for (NSInteger i = 0; i<self.stations.count; i++) {
+    for (NSInteger i = 0; i<self.stationButtons.count; i++) {
         UIButton *tempBtn = self.stationButtons[i];
-        if (i < self.startStation) {
-            [tempBtn setBackgroundColor:[UIColor darkGrayColor]];
-        }else if ((i>= self.startStation && i<= self.endStation) || i == self.startStation){
-            [tempBtn setBackgroundColor:[UIColor blueColor]];
+        if (i>=self.startStation && i<=self.endStation) {
+            tempBtn.backgroundColor = [UIColor redColor];
         }else {
-            [tempBtn setBackgroundColor:[UIColor blueColor]];
+            tempBtn.backgroundColor = [UIColor blueColor];
         }
     }
 }
@@ -112,7 +129,7 @@
 #pragma mark lazy
 - (NSArray *)stations {
     if (!_stations) {
-        _stations = @[@"武夷山", @"武夷山东", @"建瓯", @"南平", @"古田", @"福州", @"莆田", @"泉州", @"晋江", @"厦门北", @"漳州"];
+        _stations = @[@"武夷山", @"建瓯", @"南平", @"古田", @"福州", @"莆田", @"泉州", @"晋江", @"厦门北"];
         return _stations;
     }
     return _stations;

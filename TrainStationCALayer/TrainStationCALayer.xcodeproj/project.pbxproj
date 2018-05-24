@@ -14,6 +14,7 @@
 		443DF88D20B4F4E0003DB51A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 443DF88B20B4F4E0003DB51A /* LaunchScreen.storyboard */; };
 		443DF89020B4F4E0003DB51A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 443DF88F20B4F4E0003DB51A /* main.m */; };
 		443DF89A20B515D6003DB51A /* UIButton+EXFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 443DF89920B515D6003DB51A /* UIButton+EXFont.m */; };
+		443DF8C220B69139003DB51A /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443DF8C120B69139003DB51A /* CustomView.m */; };
 		A3AD71A272B3B3E627BC8F47 /* libPods-TrainStationCALayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D6E87266EDE7DB9F6ED656 /* libPods-TrainStationCALayer.a */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,8 @@
 		443DF88F20B4F4E0003DB51A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		443DF89820B515D6003DB51A /* UIButton+EXFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+EXFont.h"; sourceTree = "<group>"; };
 		443DF89920B515D6003DB51A /* UIButton+EXFont.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EXFont.m"; sourceTree = "<group>"; };
+		443DF8C020B69139003DB51A /* CustomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
+		443DF8C120B69139003DB51A /* CustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
 		940E97981A410D60566E9486 /* Pods-TrainStationCALayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainStationCALayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrainStationCALayer/Pods-TrainStationCALayer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +77,8 @@
 				443DF88120B4F4D8003DB51A /* AppDelegate.m */,
 				443DF88320B4F4D8003DB51A /* ViewController.h */,
 				443DF88420B4F4D8003DB51A /* ViewController.m */,
+				443DF8C020B69139003DB51A /* CustomView.h */,
+				443DF8C120B69139003DB51A /* CustomView.m */,
 				443DF88620B4F4D8003DB51A /* Main.storyboard */,
 				443DF88920B4F4E0003DB51A /* Assets.xcassets */,
 				443DF88B20B4F4E0003DB51A /* LaunchScreen.storyboard */,
@@ -192,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				443DF8C220B69139003DB51A /* CustomView.m in Sources */,
 				443DF88520B4F4D8003DB51A /* ViewController.m in Sources */,
 				443DF89A20B515D6003DB51A /* UIButton+EXFont.m in Sources */,
 				443DF89020B4F4E0003DB51A /* main.m in Sources */,
