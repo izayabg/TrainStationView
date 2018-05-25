@@ -26,6 +26,8 @@
 @property(nonatomic, assign)NSInteger startStation;
 @property(nonatomic, assign)NSInteger endStation;
 
+@property(nonatomic, weak)CustomView *cv;
+
 
 @end
 
@@ -48,7 +50,7 @@
     CustomView *cv = [[CustomView alloc] initWithFrame:CGRectMake(20, 150, self.view.frame.size.width-40, (self.stations.count/LINE_MAXNUM+1)*buttonSizeHeight+(self.stations.count/3)*TOP_MARGIN)];
     cv.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:cv];
-    
+    self.cv = cv;
     UIFont *font = [UIFont systemFontOfSize:24];
     CGSize size = CGSizeMake(MAXFLOAT, 30.0f);
     NSMutableArray *mutable = [NSMutableArray arrayWithCapacity:self.stations.count];
@@ -81,6 +83,10 @@
     }
     self.stationButtons = [NSArray arrayWithArray:mutable];
   
+    cv.lineCount = LINE_MAXNUM;
+    cv.count = self.stationButtons.count;
+    cv.buttonArray = self.stationButtons;
+    [cv setNeedsDisplay];
     
 }
 
@@ -115,6 +121,9 @@
         self.endStation = self.startStation;
         self.startStation = nowStation;
     }
+    self.cv.startStation = self.startStation;
+    self.cv.endStation = self.endStation;
+    [self.cv setNeedsDisplay];
     //修改界面
     for (NSInteger i = 0; i<self.stationButtons.count; i++) {
         UIButton *tempBtn = self.stationButtons[i];
