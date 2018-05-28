@@ -17,7 +17,7 @@
 
 #define buttonSizeHeight 40
 
-@interface ViewController () <CALayerDelegate>
+@interface ViewController () <CALayerDelegate, CAAnimationDelegate>
 
 @property(nonatomic, strong)NSArray *stations;
 
@@ -40,6 +40,8 @@
     self.endStation = -1;
     [self setupUI];
 
+    
+   
 }
 
 /**
@@ -87,6 +89,23 @@
     cv.count = self.stationButtons.count;
     cv.buttonArray = self.stationButtons;
     [cv setNeedsDisplay];
+    
+    
+    //Solution #1
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:5.0];
+    //    [UIView setAnimationTransition:(UIViewAnimationTransition)110 forView:view cache:NO];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:NO];
+    [UIView commitAnimations];
+    
+    //Solution #2
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    [animation setDuration:5.0f];
+    //    [animation setTimingFunction:UIViewAnimationCurveEaseInOut];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [animation setType:@"rippleEffect"];
+    [cv.layer addAnimation:animation forKey:NULL];
     
 }
 

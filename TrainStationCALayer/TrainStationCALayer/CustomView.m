@@ -8,6 +8,8 @@
 
 
 #import "CustomView.h"
+#import <CoreImage/CoreImage.h>
+
 
 //半径
 #define kRadius (15.0f)
